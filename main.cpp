@@ -30,6 +30,18 @@ DWORD WINAPI marker(LPVOID _arrF)
 			Sleep(5);
 			count += 1;
 		}
+		else {
+			cout << arrF.num << " " << count << " " << temp <<endl;			
+			LeaveCriticalSection(&criticalSection);
+			SetEvent(arrF.stop);
+			if (WaitForMultipleObjects(markerCount, hThread, FALSE, INFINITE) == WAIT_FAILED) {
+				cout << "Error." << endl;
+			}
+			int k = WaitForMultipleObjects(2, arrF.event, FALSE, INFINITE) - WAIT_OBJECT_0;
+			if (k == 0) {
+				check = true;
+			}
+		}
 	}
 	for (int i = 0; i < n; i++) {
 		if (arrF.arr[i] == arrF.num) {
